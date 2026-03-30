@@ -7,14 +7,14 @@
 1. 用 YAML 维护自定义协议源。
 2. 将 YAML 渲染为标准 MAVLink dialect XML。
 3. 基于 `pymavlink` 生成 C / C++11 协议头文件。
-4. 通过 `FetchContent` 的方式作为可复用依赖提供给其他工程使用。
+4. 通过 `FetchContent` `CPM`等方式作为可复用依赖提供给其他工程使用。
 
 ## 目录说明
 
 - `protocols/fmavlink.yaml`：总协议入口，负责组织所有模块。
 - `protocols/modules/*.yaml`：各个自定义协议模块。
 - `protocols/modules/_template.yaml`：新增协议时可直接复制的模板。
-- `generated/xml/`：渲染后的 MAVLink dialect XML。
+- `generated/xml/`：渲染后的 MAVLink dialect XML，目前只保留 `fmavlink.xml`。
 - `generated/c/`：生成好的 C 协议头文件。
 - `generated/cpp11/`：生成好的 C++11 协议头文件。
 - `tools/generate.sh`：维护者刷新协议生成产物的统一入口。
@@ -34,18 +34,32 @@
 
 ## 上游工程接入
 
-推荐使用 `FetchContent`：
+使用 `FetchContent`：
 
 ```cmake
 include(FetchContent)
 
 FetchContent_Declare(
   fmavlink
-  GIT_REPOSITORY git@github.com:xiethon/fmavlink.git
+  GIT_REPOSITORY https://github.com/xiethon/fmavlink.git
   GIT_TAG main
 )
 
 FetchContent_MakeAvailable(fmavlink)
+
+target_link_libraries(your_target PRIVATE fmavlink)
+```
+
+使用 `CPM`：
+
+```cmake
+include(cmake/CPM.cmake)
+
+CPMAddPackage(
+  NAME fmavlink
+  GITHUB_REPOSITORY xiethon/fmavlink
+  GIT_TAG main
+)
 
 target_link_libraries(your_target PRIVATE fmavlink)
 ```
@@ -61,3 +75,5 @@ target_link_libraries(your_target PRIVATE fmavlink)
 ```cmake
 target_link_libraries(your_target PRIVATE fmavlink_cpp11)
 ```
+
+
