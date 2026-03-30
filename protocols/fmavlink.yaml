@@ -1,0 +1,10 @@
+dialect:
+  name: fmavlink
+  version: 3
+  dialect_id: 200
+  description: FM 自定义 MAVLink 协议集合
+  includes:
+    - common.xml
+
+modules:
+  - battery.yaml

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mavlink>
+  <include>common.xml</include>
+  <version>3</version>
+  <dialect>200</dialect>
+  <enums>
+    <enum name="FM_BATTERY_FLAGS">
+      <description>电池状态标志位</description>
+      <entry name="FM_BATTERY_FLAG_LOW" value="1">
+        <description>电量偏低</description>
+      </entry>
+      <entry name="FM_BATTERY_FLAG_FAULT" value="2">
+        <description>电池存在故障</description>
+      </entry>
+    </enum>
+  </enums>
+  <messages>
+    <message id="20000" name="FM_BATTERY_STATUS">
+      <description>轻量电池状态消息</description>
+      <field type="uint32_t" name="time_boot_ms" units="ms">系统启动后的时间戳</field>
+      <field type="uint8_t" name="battery_id">电池编号</field>
+      <field type="uint16_t" name="voltage_mv" units="mV">当前电压</field>
+      <field type="uint8_t" name="remaining_pct" units="%">剩余电量百分比</field>
+      <field type="uint8_t" name="flags" enum="FM_BATTERY_FLAGS">电池状态标志位</field>
+    </message>
+  </messages>
+</mavlink>

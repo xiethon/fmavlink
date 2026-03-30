@@ -1,0 +1,30 @@
+module: template
+description: 自定义协议模板
+
+enums:
+  - name: FM_TEMPLATE_FLAGS
+    description: 示例标志位枚举
+    entries:
+      - name: FM_TEMPLATE_FLAG_ENABLED
+        value: 1
+        description: 示例启用标志
+
+messages:
+  - id: 20001
+    name: FM_TEMPLATE_STATUS
+    description: 示例状态消息
+    fields:
+      - name: time_boot_ms
+        type: uint32_t
+        units: ms
+        description: 系统启动后的时间戳
+      - name: instance_id
+        type: uint8_t
+        description: 实例编号
+      - name: value
+        type: uint16_t
+        description: 示例数值
+      - name: flags
+        type: uint8_t
+        enum: FM_TEMPLATE_FLAGS
+        description: 示例标志位

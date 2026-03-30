@@ -1,0 +1,38 @@
+module: battery
+description: 电池协议示例
+
+enums:
+  - name: FM_BATTERY_FLAGS
+    description: 电池状态标志位
+    entries:
+      - name: FM_BATTERY_FLAG_LOW
+        value: 1
+        description: 电量偏低
+      - name: FM_BATTERY_FLAG_FAULT
+        value: 2
+        description: 电池存在故障
+
+messages:
+  - id: 20000
+    name: FM_BATTERY_STATUS
+    description: 轻量电池状态消息
+    fields:
+      - name: time_boot_ms
+        type: uint32_t
+        units: ms
+        description: 系统启动后的时间戳
+      - name: battery_id
+        type: uint8_t
+        description: 电池编号
+      - name: voltage_mv
+        type: uint16_t
+        units: mV
+        description: 当前电压
+      - name: remaining_pct
+        type: uint8_t
+        units: "%"
+        description: 剩余电量百分比
+      - name: flags
+        type: uint8_t
+        enum: FM_BATTERY_FLAGS
+        description: 电池状态标志位
