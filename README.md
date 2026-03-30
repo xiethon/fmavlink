@@ -85,9 +85,10 @@ target_link_libraries(your_target PRIVATE fmavlink_cpp11)
 ./tools/install_deps.sh
 ```
 
+该脚本会在仓库根目录创建 `.venv/`，避免向系统 Python 直接安装依赖。
+
 当 YAML 协议有变更时，执行：
 
 ```bash
 ./tools/generate.sh
 ```
-
