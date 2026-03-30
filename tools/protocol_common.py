@@ -217,9 +217,32 @@ def protocol_to_xml(protocol: dict) -> ET.ElementTree:
 
 
 def find_message_definition_dir() -> Path:
+    candidates = []
+
+    env_mdef = Path.cwd() / "message_definitions" / "v1.0"
+    candidates.append(env_mdef)
+
+    import os
+    mdef_env = os.getenv("MDEF")
+    if mdef_env:
+        candidates.append(Path(mdef_env).resolve() / "v1.0")
+        candidates.append(Path(mdef_env).resolve())
+
     import pymavlink
 
-    return Path(pymavlink.__file__).resolve().parent / "message_definitions" / "v1.0"
+    pymavlink_root = Path(pymavlink.__file__).resolve().parent
+    candidates.append(pymavlink_root / "message_definitions" / "v1.0")
+    candidates.append(pymavlink_root.parent / "message_definitions" / "v1.0")
+
+    for candidate in candidates:
+        if (candidate / "common.xml").exists():
+            return candidate
+
+    candidate_text = "\n".join(f"- {candidate}" for candidate in candidates)
+    raise FileNotFoundError(
+        "Unable to locate MAVLink message definitions directory. Looked in:\n"
+        f"{candidate_text}"
+    )
 
 
 def copy_include_tree(xml_path: Path, destination_dir: Path) -> None:
