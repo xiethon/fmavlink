@@ -17,6 +17,7 @@
 - `generated/xml/`：渲染后的 MAVLink dialect XML，目前只保留 `fmavlink.xml`。
 - `generated/c/`：生成好的 C 协议头文件。
 - `generated/cpp11/`：生成好的 C++11 协议头文件。
+- `tools/install_deps.sh`：维护者安装生成依赖的快捷脚本。
 - `tools/generate.sh`：维护者刷新协议生成产物的统一入口。
 - `tools/*.py`：协议校验、XML 渲染和代码生成脚本。
 - `examples/`：最小接入示例。
@@ -76,4 +77,17 @@ target_link_libraries(your_target PRIVATE fmavlink)
 target_link_libraries(your_target PRIVATE fmavlink_cpp11)
 ```
 
+## 维护者工作流
+
+首次在维护环境中使用前，先安装生成依赖：
+
+```bash
+./tools/install_deps.sh
+```
+
+当 YAML 协议有变更时，执行：
+
+```bash
+./tools/generate.sh
+```
 
