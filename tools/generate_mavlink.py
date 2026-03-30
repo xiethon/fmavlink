@@ -66,17 +66,14 @@ def main() -> int:
     parser.add_argument("--xml-out", required=True, help="Generated dialect XML path")
     parser.add_argument("--c-out", required=True, help="Generated C header output directory")
     parser.add_argument("--cpp11-out", help="Generated C++11 header output directory")
-    parser.add_argument("--stamp", required=True, help="Stamp file path")
     args = parser.parse_args()
 
     config_path = Path(args.config).resolve()
     xml_path = Path(args.xml_out).resolve()
     c_out = Path(args.c_out).resolve()
     cpp11_out = Path(args.cpp11_out).resolve() if args.cpp11_out else None
-    stamp_path = Path(args.stamp).resolve()
 
     xml_path.parent.mkdir(parents=True, exist_ok=True)
-    stamp_path.parent.mkdir(parents=True, exist_ok=True)
 
     protocol = merge_protocol(config_path)
     xml_tree = protocol_to_xml(protocol)
@@ -88,8 +85,6 @@ def main() -> int:
         generate_language(xml_path, cpp11_out, "C++11")
 
     prune_generated_tree(xml_path.parent.parent)
-
-    stamp_path.write_text("generated\n", encoding="utf-8")
     return 0
 
 
